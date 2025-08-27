@@ -37,6 +37,8 @@ const navigateTo = (path: string) => {
         >
             Create your own event
         </button>
+        <br />
+        <small class="trademark">&#169; 2025 Codewald</small>
     </footer>
 </template>
 
@@ -80,5 +82,27 @@ footer {
         /* color: #ffbf00;
         border-color: #ffbf00; */
     }
+    .trademark {
+        display: block;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
+        font-size: 0.8rem;
+        color: var(--pico-muted-color);
+    }
+}
+</style>
+<style>
+body {
+    padding: 0 15px;
+}
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ffbf00, #ffd700, #ffbf00);
+    opacity: 0.8;
 }
 </style>

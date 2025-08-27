@@ -167,12 +167,12 @@ window.setInterval(() => {
         <h1 class="event-name pico-color-pink-500">{{ props.event.n }}</h1>
     </div>
 
-    <article class="event-card primary main-timer">
+    <article class="event-card primary main-timer" :class="{ 'in-past': !inFuture }">
         <small class="timer-label">
             <span v-if="inFuture">in</span> {{ relativeDifferenceDate }}
         </small>
         <p class="event-time large">{{ relativeDifferenceTime }}</p>
-        <small class="highlight" v-if="!inFuture">ago</small>
+        <small v-if="!inFuture">ago</small>
     </article>
 
     <div class="timezone-section">
@@ -380,6 +380,10 @@ article.event-card.primary {
     background: linear-gradient(135deg, var(--pico-primary) 0%, var(--pico-primary-hover) 100%);
     color: var(--pico-primary-inverse);
     border: none;
+}
+
+article.event-card.primary.in-past {
+    background: linear-gradient(135deg, var(--pico-muted-color) 0%, var(--pico-primary-hover) 100%);
 }
 
 /* Details Section */
