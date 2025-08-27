@@ -138,6 +138,24 @@ const formatDateTimeWithLineBreaks = (dateTimeString: string) => {
     return formattedWords.join(' ');
 };
 
+// Share functionality
+const currentUrl = ref(window.location.href);
+const isCopied = ref(false);
+
+const copyToClipboard = async () => {
+    try {
+        await navigator.clipboard.writeText(currentUrl.value);
+        isCopied.value = true;
+
+        // Reset the icon after 5 seconds
+        setTimeout(() => {
+            isCopied.value = false;
+        }, 5000);
+    } catch (err) {
+        console.error('Failed to copy URL:', err);
+    }
+};
+
 // Update time every second
 window.setInterval(() => {
     now.value = new Date();
@@ -196,6 +214,28 @@ window.setInterval(() => {
                 </ul>
             </div>
         </details>
+    </article>
+
+    <article class="share-section">
+        <header>Share this event</header>
+        <fieldset role="group">
+            <input
+                type="text"
+                id="share-url"
+                name="share-url"
+                :value="currentUrl"
+                readonly
+                placeholder="Loading URL..."
+            />
+            <button
+                type="button"
+                class="copy-button"
+                @click="copyToClipboard"
+                :title="isCopied ? 'URL copied!' : 'Copy URL to clipboard'"
+            >
+                {{ isCopied ? '✅ Copied!' : '📋 Copy' }}
+            </button>
+        </fieldset>
     </article>
     <p class="hide">{{ JSON.stringify(props.event, null, 4) }}</p>
 </template>
@@ -422,6 +462,33 @@ ul.more-numbers li:hover {
     background: var(--pico-muted-hover-background);
     border-color: var(--pico-primary);
     transform: translateX(4px);
+}
+
+/* Share Section */
+.share-section {
+    margin-bottom: 1.5rem;
+}
+
+.share-section header {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--pico-muted-color);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.copy-button {
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.copy-button:active {
+    transform: scale(0.95);
+}
+
+.copy-button:hover {
+    background-color: var(--pico-primary-hover);
 }
 
 ul,
