@@ -178,10 +178,13 @@ window.setInterval(() => {
 
     <article class="details-section">
         <details>
-            <summary class="details-summary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Numbers</summary>
+            <summary class="details-summary">
+                <span class="summary-icon">📊</span>
+                <span class="summary-text">More Numbers</span>
+            </summary>
 
             <div class="details-content">
-                That is in totals:
+                <div class="content-header">That is in totals:</div>
                 <ul class="more-numbers">
                     <li v-if="relativeTimeDiffYears" v-html="relativeTimeDiffYears"></li>
                     <li v-if="relativeTimeDiffMonths" v-html="relativeTimeDiffMonths"></li>
@@ -209,7 +212,6 @@ window.setInterval(() => {
 }
 
 .event-name {
-    /* color: #6b4d00; */
     color: #b5932d;
     text-transform: uppercase;
     margin: 0 0 1rem 0;
@@ -347,30 +349,79 @@ article.event-card.primary {
 
 .details-summary {
     cursor: pointer;
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
     background: var(--pico-muted-background);
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid var(--pico-muted-border-color);
-    transition: background-color 0.2s ease;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
 }
 
 .details-summary:hover {
     background: var(--pico-muted-hover-background);
+    border-color: var(--pico-primary);
+}
+
+.summary-icon {
+    font-size: 1.1rem;
+}
+
+.summary-text {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .details-content {
     margin-top: 1.25rem;
-    padding: 1.25rem;
+    padding: 1.5rem;
     background: var(--pico-background-color);
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid var(--pico-muted-border-color);
+}
+
+.content-header {
+    font-size: 0.9rem;
+    color: var(--pico-muted-color);
+    text-align: center;
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 ul.more-numbers {
     margin-top: 1rem;
     display: flex;
     flex-direction: column-reverse;
-    gap: 0.5rem;
+    gap: 0.75rem;
+}
+
+ul.more-numbers li {
+    padding: 0.75rem;
+    background: var(--pico-muted-background);
+    border-radius: 6px;
+    border: 1px solid var(--pico-muted-border-color);
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.1s ease;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+ul.more-numbers li:hover {
+    background: var(--pico-muted-hover-background);
+    border-color: var(--pico-primary);
+    transform: translateX(4px);
 }
 
 ul,
