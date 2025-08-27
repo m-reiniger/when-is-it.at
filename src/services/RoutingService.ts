@@ -1,11 +1,11 @@
-<script lang="ts">
+// <script lang="ts">
 import { computed, ref } from 'vue';
 
 import HomeComponent from '../components/HomeComponent.vue';
 import AddComponent from '../components/AddComponent.vue';
 import EventComponent from '@/components/EventComponent.vue';
 
-import { urlDecoder } from './UrlCoderService.vue';
+import { urlDecoder } from './UrlCoderService';
 
 const urlHash = ref(window.location.hash);
 
@@ -48,4 +48,4 @@ export const routedComponent = computed(() => {
         }
     }
 });
-</script>
+// </script>

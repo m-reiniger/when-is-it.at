@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { urlEncoder } from '@/services/UrlCoderService.vue';
+import { urlEncoder } from '@/services/UrlCoderService';
 
 const exampleEvent = {
     n: 'My Test Event',
-    d: new Date('2026-06-01T12:00:00.000Z'),
+    d: new Date('2026-08-26T15:03:00.000Z'),
     otz: 'PST',
 };
 

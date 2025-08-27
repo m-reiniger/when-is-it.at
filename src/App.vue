@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routedComponent } from './services/RoutingService.vue';
+import { routedComponent } from './services/RoutingService';
 
 const navigateTo = (path: string) => {
     window.location.hash = path;
@@ -9,7 +9,7 @@ const navigateTo = (path: string) => {
 <template>
     <header></header>
     <main>
-        <h1>When-is-it.at?</h1>
+        <h1><a href="/">When-is-it.at?</a></h1>
         <component :is="routedComponent.component" v-bind="routedComponent.props" />
     </main>
     <footer>
@@ -25,6 +25,10 @@ main {
     h1 {
         text-align: center;
         font-size: 1.5rem;
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
     }
 }
 footer {
