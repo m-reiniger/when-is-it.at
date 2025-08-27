@@ -42,7 +42,7 @@ const navigateTo = (path: string) => {
 
 <style scoped>
 header {
-    max-width: 650px;
+    max-width: 575px;
     margin: 1rem auto;
     h1 {
         text-align: center;
@@ -68,11 +68,11 @@ header {
     }
 }
 main {
-    max-width: 650px;
+    max-width: 575px;
     margin: 1rem auto;
 }
 footer {
-    max-width: 650px;
+    max-width: 575px;
     margin: 1rem auto;
     text-align: center;
     button {

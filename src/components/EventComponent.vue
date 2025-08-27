@@ -120,30 +120,27 @@ window.setInterval(() => {
     <h1 class="event-name pico-color-pink-500">{{ props.event.n }}</h1>
     <p v-if="inFuture">starts</p>
     <p v-else>started</p>
-    <article>
-        <small class="highlight">
-            <span v-if="inFuture">in</span> {{ relativeDifferenceDate }}
-        </small>
-        <p class="event-time highlight large">{{ relativeDifferenceTime }}</p>
+    <article class="event-card primary">
+        <small class=""> <span v-if="inFuture">in</span> {{ relativeDifferenceDate }} </small>
+        <p class="event-time large">{{ relativeDifferenceTime }}</p>
         <small class="highlight" v-if="!inFuture">ago</small>
     </article>
-    <p class="devider">-OR-</p>
-    <article>
+    <article class="event-card">
+        <header>Your time zone</header>
         <p class="event-time">{{ localDateTime }}</p>
-        <small
-            >in your time zone <span class="bold">{{ currentTimeZoneName }}</span
-            >.</small
-        >
+        <footer>
+            in <span class="bold bright">{{ currentTimeZoneName }}</span
+            >.
+        </footer>
     </article>
-    <p class="devider">-OR-</p>
-    <article>
+    <article class="event-card">
+        <header>Original time zone</header>
         <p class="event-time">{{ origTZDateTime }}</p>
-        <small
-            >in the original time zone <span class="bold">{{ originalTimeZone }}</span
-            >.</small
-        >
+        <footer>
+            in <span class="bold bright">{{ originalTimeZone }}</span
+            >.
+        </footer>
     </article>
-    <p class="devider">-OR-</p>
     <article>
         <details>
             <summary>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;More Numbers</summary>
@@ -170,11 +167,13 @@ window.setInterval(() => {
 
 .event-name {
     color: #785800;
+    text-transform: uppercase;
 }
 .event-time {
     margin: 0;
     font-weight: bold;
     color: #785800;
+    font-size: 1.25rem;
 }
 .highlight {
     color: #ffbf00;
@@ -182,13 +181,30 @@ window.setInterval(() => {
 .bold {
     font-weight: bold;
 }
+.bright {
+    color: var(--pico-color);
+}
 .large {
     font-size: 2rem;
 }
-.devider {
-    font-weight: bold;
-    font-size: 0.75rem;
-    color: #fff;
+
+article.event-card {
+    header {
+        font-size: 1rem;
+        font-weight: bold;
+        color: var(--pico-muted-color);
+        text-transform: uppercase;
+    }
+
+    footer {
+        font-size: 1rem;
+        color: var(--pico-muted-color);
+    }
+}
+
+article.event-card.primary {
+    background: linear-gradient(135deg, var(--pico-primary) 0%, var(--pico-primary-hover) 100%);
+    color: var(--pico-primary-inverse);
 }
 
 ul.more-numbers {
