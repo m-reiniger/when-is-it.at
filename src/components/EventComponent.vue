@@ -183,12 +183,18 @@ window.setInterval(() => {
     <p class="devider">-OR-</p>
     <article>
         <p class="event-time">{{ localDateTime }}</p>
-        <small>in your time zone ({{ currentTimeZoneName }}).</small>
+        <small
+            >in your time zone <span class="bold">{{ currentTimeZoneName }}</span
+            >.</small
+        >
     </article>
     <p class="devider">-OR-</p>
     <article>
         <p class="event-time">{{ origTZDateTime }}</p>
-        <small>in the original time zone ({{ originalTimeZone }}).</small>
+        <small
+            >in the original time zone <span class="bold">{{ originalTimeZone }}</span
+            >.</small
+        >
     </article>
     <p class="devider">-OR-</p>
     <article>
@@ -225,6 +231,9 @@ window.setInterval(() => {
 }
 .highlight {
     color: #ffbf00;
+}
+.bold {
+    font-weight: bold;
 }
 .large {
     font-size: 2rem;

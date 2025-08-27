@@ -1,4 +1,3 @@
-// <script lang="ts">
 import { computed, ref } from 'vue';
 
 import HomeComponent from '../components/HomeComponent.vue';
@@ -48,4 +47,3 @@ export const routedComponent = computed(() => {
         }
     }
 });
-// </script>

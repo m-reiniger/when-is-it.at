@@ -1,4 +1,3 @@
-// <script lang="ts">
 import JSONCrush from 'jsoncrush';
 
 import type { EventDetails } from '@/types';
@@ -25,4 +24,3 @@ export const urlEncoder = (data: EventDetails) => {
     console.log('base46ed', base46ed, base46ed.length);
     return crushed;
 };
-// </script>
