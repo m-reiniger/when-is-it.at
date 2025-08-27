@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+
 import { TimeFormatService } from '@/services/TimeFormatService';
 import type { EventDetails } from '@/types';
 
