@@ -217,7 +217,7 @@ window.setInterval(() => {
     </article>
 
     <article class="share-section">
-        <header>Share this event</header>
+        <header>📤 Share this event</header>
         <fieldset role="group">
             <input
                 type="text"
