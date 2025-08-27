@@ -222,6 +222,19 @@ window.setInterval(() => {
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-timer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ffbf00, #ffd700, #ffbf00);
+    opacity: 0.8;
 }
 
 .timer-label {
@@ -256,6 +269,7 @@ window.setInterval(() => {
 .large {
     font-size: 2.25rem;
     margin: 0.75rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Timezone Section */
