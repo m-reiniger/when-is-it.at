@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-
-import { DateTime, type DurationUnit } from 'luxon';
-
+import { ref, computed } from 'vue';
+import { TimeFormatService } from '@/services/TimeFormatService';
 import type { EventDetails } from '@/types';
 
 const props = defineProps<{
@@ -14,156 +12,104 @@ const now = ref(new Date());
 const originalTimeZone = props.event.otz;
 const eventTime = new Date(props.event.d);
 
-const inFuture = computed(() => eventTime.getTime() > now.value.getTime());
-
-const currentTimeZoneName = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-const localDateTime = computed(() =>
-    Intl.DateTimeFormat(undefined, { dateStyle: 'full', timeStyle: 'long' }).format(eventTime),
-);
-
+// Computed properties that use the service
+const inFuture = computed(() => TimeFormatService.isInFuture(now.value, eventTime));
+const currentTimeZoneName = computed(() => TimeFormatService.getCurrentTimeZoneName());
+const localDateTime = computed(() => TimeFormatService.getLocalDateTime(eventTime));
 const origTZDateTime = computed(() =>
-    Intl.DateTimeFormat(undefined, {
-        dateStyle: 'full',
-        timeStyle: 'long',
-        timeZone: originalTimeZone,
-    }).format(eventTime),
+    TimeFormatService.getOriginalTimeZoneDateTime(eventTime, originalTimeZone),
 );
 
-const relativeDifference = computed(() => {
-    const nowDateTime = DateTime.fromJSDate(now.value);
-    const eventDateTime = DateTime.fromJSDate(eventTime);
+const relativeDifferenceDate = computed(() =>
+    TimeFormatService.getRelativeDateDifference(now.value, eventTime),
+);
 
-    const diffDateValues = ['years', 'months', 'days'] as DurationUnit[];
-    let diffDate = inFuture.value
-        ? eventDateTime.diff(nowDateTime, diffDateValues)
-        : nowDateTime.diff(eventDateTime, diffDateValues);
-    diffDate = diffDate.set({ day: Math.floor(diffDate.get('day')) });
+const relativeDifferenceTime = computed(() =>
+    TimeFormatService.getRelativeTimeDifference(now.value, eventTime),
+);
 
-    const diffTimeValues = [
-        'years',
-        'months',
-        'days',
-        'hours',
-        'minutes',
-        'seconds',
-    ] as DurationUnit[];
-    let diffTime = inFuture.value
-        ? eventDateTime.diff(nowDateTime, diffTimeValues)
-        : nowDateTime.diff(eventDateTime, diffTimeValues);
-    diffTime = diffTime.set({ second: Math.floor(diffTime.get('second')) });
+// Detailed time breakdown computed properties
+const relativeTimeDiffSeconds = computed(() =>
+    addSpanToWords(
+        TimeFormatService.getGeneralTimeDifferenceString(now.value, eventTime, ['seconds']),
+    ),
+);
 
-    return {
-        date: diffDate.toHuman({
-            unitDisplay: 'long',
-            showZeros: false,
-        }),
-        time: `${diffTime.hours}h ${diffTime.minutes}m ${Math.floor(diffTime.seconds)}s`,
-    };
-});
+const relativeTimeDiffMinutes = computed(() =>
+    addSpanToWords(
+        TimeFormatService.getGeneralTimeDifferenceString(now.value, eventTime, [
+            'minutes',
+            'seconds',
+        ]),
+    ),
+);
 
-const relativeDiffParts = computed(() => {
-    let startTine = DateTime.fromJSDate(now.value);
-    let endTime = DateTime.fromJSDate(eventTime);
-    if (!inFuture.value) {
-        endTime = DateTime.fromJSDate(now.value);
-        startTine = DateTime.fromJSDate(eventTime);
+const relativeTimeDiffHours = computed(() =>
+    addSpanToWords(
+        TimeFormatService.getGeneralTimeDifferenceString(now.value, eventTime, [
+            'hours',
+            'minutes',
+            'seconds',
+        ]),
+    ),
+);
+
+const relativeTimeDiffDays = computed(() =>
+    addSpanToWords(
+        TimeFormatService.getGeneralTimeDifferenceString(now.value, eventTime, [
+            'days',
+            'hours',
+            'minutes',
+            'seconds',
+        ]),
+    ),
+);
+
+const relativeTimeDiffWeeks = computed(() =>
+    addSpanToWords(
+        TimeFormatService.getGeneralTimeDifferenceString(now.value, eventTime, [
+            'weeks',
+            'days',
+            'hours',
+            'minutes',
+            'seconds',
+        ]),
+    ),
+);
+
+const relativeTimeDiffMonths = computed(() =>
+    addSpanToWords(
+        TimeFormatService.getGeneralTimeDifferenceString(now.value, eventTime, [
+            'months',
+            'days',
+            'hours',
+            'minutes',
+            'seconds',
+        ]),
+    ),
+);
+
+const relativeTimeDiffYears = computed(() =>
+    addSpanToWords(
+        TimeFormatService.getGeneralTimeDifferenceString(now.value, eventTime, [
+            'years',
+            'months',
+            'days',
+            'hours',
+            'minutes',
+            'seconds',
+        ]),
+    ),
+);
+
+const addSpanToWords = (words: string) => {
+    if (words) {
+        return `<span>${words.split(' ').join('</span> <span>')}</span>`;
     }
+    return '';
+};
 
-    // years
-    let yearsDiff = endTime.diff(startTine, [
-        'years',
-        'months',
-        'days',
-        'hours',
-        'minutes',
-        'seconds',
-    ]);
-    yearsDiff = yearsDiff.set({ second: Math.floor(yearsDiff.get('second')) });
-    const years =
-        yearsDiff.get('year') !== 0
-            ? yearsDiff.toHuman({
-                  unitDisplay: 'long',
-                  showZeros: false,
-              })
-            : '';
-
-    // months
-    let monthDiff = endTime.diff(startTine, ['months', 'days', 'hours', 'minutes', 'seconds']);
-    monthDiff = monthDiff.set({ second: Math.floor(monthDiff.get('second')) });
-    const months =
-        monthDiff.get('month') !== 0
-            ? monthDiff.toHuman({
-                  unitDisplay: 'long',
-                  showZeros: false,
-              })
-            : '';
-
-    // weeks
-    let weekDiff = endTime.diff(startTine, ['weeks', 'days', 'hours', 'minutes', 'seconds']);
-    weekDiff = weekDiff.set({ second: Math.floor(weekDiff.get('second')) });
-    const weeks =
-        weekDiff.get('week') !== 0
-            ? weekDiff.toHuman({
-                  unitDisplay: 'long',
-                  showZeros: false,
-              })
-            : '';
-
-    // days
-    let dayDiff = endTime.diff(startTine, ['days', 'hours', 'minutes', 'seconds']);
-    dayDiff = dayDiff.set({ second: Math.floor(dayDiff.get('second')) });
-    const days =
-        dayDiff.get('day') !== 0
-            ? dayDiff.toHuman({
-                  unitDisplay: 'long',
-                  showZeros: false,
-              })
-            : '';
-
-    // hours
-    let hoursDiff = endTime.diff(startTine, ['hours', 'minutes', 'seconds']);
-    hoursDiff = hoursDiff.set({ second: Math.floor(hoursDiff.get('second')) });
-    const hours =
-        hoursDiff.get('hour') !== 0
-            ? hoursDiff.toHuman({
-                  unitDisplay: 'long',
-                  showZeros: false,
-              })
-            : '';
-
-    // minutes
-    let minutesDiff = endTime.diff(startTine, ['minutes', 'seconds']);
-    minutesDiff = minutesDiff.set({ second: Math.floor(minutesDiff.get('second')) });
-    const minutes =
-        minutesDiff.get('minute') !== 0
-            ? minutesDiff.toHuman({
-                  unitDisplay: 'long',
-                  showZeros: false,
-              })
-            : '';
-
-    // seconds
-    let secondsDiff = endTime.diff(startTine, ['seconds']);
-    secondsDiff = secondsDiff.set({ second: Math.floor(secondsDiff.get('second')) });
-    const seconds =
-        secondsDiff.get('second') !== 0
-            ? secondsDiff.toHuman({
-                  unitDisplay: 'long',
-                  showZeros: false,
-              })
-            : '';
-    return {
-        years: years ? `<span>${years.split(' ').join('</span> <span>')}</span>` : '',
-        months: months ? `<span>${months.split(' ').join('</span> <span>')}</span>` : '',
-        weeks: weeks ? `<span>${weeks.split(' ').join('</span> <span>')}</span>` : '',
-        days: days ? `<span>${days.split(' ').join('</span> <span>')}</span>` : '',
-        hours: hours ? `<span>${hours.split(' ').join('</span> <span>')}</span>` : '',
-        minutes: `<span>${minutes.split(' ').join('</span> <span>')}</span>`,
-        seconds: `<span>${seconds.split(' ').join('</span> <span>')}</span>`,
-    };
-});
-
+// Update time every second
 window.setInterval(() => {
     now.value = new Date();
 }, 1000);
@@ -175,9 +121,9 @@ window.setInterval(() => {
     <p v-else>started</p>
     <article>
         <small class="highlight">
-            <span v-if="inFuture">in</span> {{ relativeDifference.date }}
+            <span v-if="inFuture">in</span> {{ relativeDifferenceDate }}
         </small>
-        <p class="event-time highlight large">{{ relativeDifference.time }}</p>
+        <p class="event-time highlight large">{{ relativeDifferenceTime }}</p>
         <small class="highlight" v-if="!inFuture">ago</small>
     </article>
     <p class="devider">-OR-</p>
@@ -203,13 +149,13 @@ window.setInterval(() => {
 
             That is in totals:
             <ul class="more-numbers">
-                <li v-if="relativeDiffParts.years" v-html="relativeDiffParts.years"></li>
-                <li v-if="relativeDiffParts.months" v-html="relativeDiffParts.months"></li>
-                <li v-if="relativeDiffParts.weeks" v-html="relativeDiffParts.weeks"></li>
-                <li v-if="relativeDiffParts.days" v-html="relativeDiffParts.days"></li>
-                <li v-if="relativeDiffParts.hours" v-html="relativeDiffParts.hours"></li>
-                <li v-if="relativeDiffParts.minutes" v-html="relativeDiffParts.minutes"></li>
-                <li v-if="relativeDiffParts.seconds" v-html="relativeDiffParts.seconds"></li>
+                <li v-if="relativeTimeDiffYears" v-html="relativeTimeDiffYears"></li>
+                <li v-if="relativeTimeDiffMonths" v-html="relativeTimeDiffMonths"></li>
+                <li v-if="relativeTimeDiffWeeks" v-html="relativeTimeDiffWeeks"></li>
+                <li v-if="relativeTimeDiffDays" v-html="relativeTimeDiffDays"></li>
+                <li v-if="relativeTimeDiffHours" v-html="relativeTimeDiffHours"></li>
+                <li v-if="relativeTimeDiffMinutes" v-html="relativeTimeDiffMinutes"></li>
+                <li v-if="relativeTimeDiffSeconds" v-html="relativeTimeDiffSeconds"></li>
             </ul>
         </details>
     </article>
