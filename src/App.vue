@@ -8,7 +8,7 @@ const navigateTo = (path: string) => {
 </script>
 
 <template>
-    <header>
+    <header class="container">
         <nav>
             <ul>
                 <h1>
@@ -26,10 +26,10 @@ const navigateTo = (path: string) => {
             </ul>
         </nav>
     </header>
-    <main>
+    <main class="container">
         <component :is="routedComponent.component" v-bind="routedComponent.props" />
     </main>
-    <footer>
+    <footer class="container">
         <button
             class="outline"
             @click="navigateTo('/add')"
