@@ -147,17 +147,13 @@ onMounted(() => {
     h1 {
         margin: auto;
 
-        color: #b5932d;
-        text-transform: uppercase;
-        margin: 0 0 1rem 0;
-        font-size: 1.5rem;
-        letter-spacing: 0.05em;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        background: rgba(139, 115, 0, 0.08);
-        border: 1px solid rgba(139, 115, 0, 0.2);
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        display: inline-block;
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #b5932d, #ffd700);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 }
 
