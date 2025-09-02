@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
 import { TimeFormatService } from '@/services/TimeFormatService';
 import type { EventDetails } from '@/types';
+
+const navigateTo = (path: string) => {
+    window.location.hash = path;
+};
 
 const props = defineProps<{
     event: EventDetails;
@@ -160,6 +164,10 @@ const copyToClipboard = async () => {
 window.setInterval(() => {
     now.value = new Date();
 }, 1000);
+
+onMounted(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+});
 </script>
 
 <template>
@@ -235,7 +243,11 @@ window.setInterval(() => {
             </button>
         </fieldset>
     </article>
-    <p class="hide">{{ JSON.stringify(props.event, null, 4) }}</p>
+    <!-- Call to Action -->
+    <div class="cta" @click="navigateTo('/add')">
+        <h3>Ready to create your own event?</h3>
+        <a href="#/add" class="primary outline">Create Event Now</a>
+    </div>
 </template>
 
 <style scoped>
@@ -511,5 +523,25 @@ ul.more-numbers li span:nth-child(2),
 ul.more-numbers li span:nth-child(1) {
     font-weight: bold;
     color: #785800;
+}
+
+/* Call to Action */
+.cta {
+    cursor: pointer;
+    text-align: center;
+    padding: 2rem;
+    background: var(--pico-card-background-color);
+    border-radius: 8px;
+    border: 1px solid var(--pico-card-border-color);
+}
+
+.cta h3 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.cta .primary {
+    font-size: 1.1rem;
+    padding: 0.75rem 2rem;
 }
 </style>

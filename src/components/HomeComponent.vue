@@ -7,19 +7,19 @@ import AddComponent from './AddComponent.vue';
 
 const exampleEvents: { description: string; event: EventDetails }[] = [
     {
-        description: 'Neil Armstrong becomes the first human to walk on the Moon',
-        event: {
-            n: 'Apollo 11 Moon Landing',
-            d: DateTime.fromISO('1969-07-21T20:17:00', { zone: 'UTC' }).toJSDate(),
-            otz: 'UTC',
-        },
-    },
-    {
         description: 'Los Angeles hosts the 34th Summer Olympic Games',
         event: {
             n: 'Summer Olympics 2028',
             d: DateTime.fromISO('2028-07-14T17:00:00', { zone: 'America/Los_Angeles' }).toJSDate(),
             otz: 'America/Los_Angeles',
+        },
+    },
+    {
+        description: 'Neil Armstrong becomes the first human to walk on the Moon',
+        event: {
+            n: 'Apollo 11 Moon Landing',
+            d: DateTime.fromISO('1969-07-21T20:17:00', { zone: 'UTC' }).toJSDate(),
+            otz: 'UTC',
         },
     },
     {
@@ -217,7 +217,7 @@ h2 {
 }
 
 /* Call to Action */
-.cta {
+/* .cta {
     text-align: center;
     padding: 2rem;
     background: var(--pico-card-background-color);
@@ -233,7 +233,7 @@ h2 {
 .cta .primary {
     font-size: 1.1rem;
     padding: 0.75rem 2rem;
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 768px) {

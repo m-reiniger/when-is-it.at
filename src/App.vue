@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import AddComponent from './components/AddComponent.vue';
-import HomeComponent from './components/HomeComponent.vue';
 import { routedComponent } from './services/RoutingService';
-
-const navigateTo = (path: string) => {
-    window.location.hash = path;
-};
 </script>
 
 <template>
@@ -31,16 +25,6 @@ const navigateTo = (path: string) => {
         <component :is="routedComponent.component" v-bind="routedComponent.props" />
     </main>
     <footer class="container">
-        <button
-            class="outline"
-            @click="navigateTo('/add')"
-            v-if="
-                routedComponent.component !== AddComponent &&
-                routedComponent.component !== HomeComponent
-            "
-        >
-            Create your own event
-        </button>
         <br />
         <small class="trademark">&#169; 2025 Codewald</small>
     </footer>
