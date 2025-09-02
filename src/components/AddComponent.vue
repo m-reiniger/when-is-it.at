@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import { getTimeZones, type TimeZone } from '@vvo/tzdb';
 import { DateTime } from 'luxon';
@@ -56,6 +56,16 @@ const createEvent = (e: Event) => {
         window.location.hash = `${link}`;
     }
 };
+
+onMounted(() => {
+    const form = document.getElementById('add-event-form') as HTMLFormElement;
+    const invalidInputs = form.querySelectorAll('input');
+    invalidInputs.forEach((input) => {
+        input.addEventListener('input', () => {
+            input.removeAttribute('aria-invalid');
+        });
+    });
+});
 </script>
 
 <template>
