@@ -9,7 +9,6 @@ import { urlDecoder } from './UrlCoderService';
 const urlHash = ref(window.location.hash);
 
 window.addEventListener('hashchange', () => {
-    console.log('hashchange', window.location.hash);
     urlHash.value = window.location.hash;
 });
 
@@ -31,7 +30,6 @@ export const routedComponent = computed(() => {
         default: {
             try {
                 const event = urlDecoder(cleanHash);
-                console.log('event', event);
                 return {
                     component: EventComponent,
                     props: {

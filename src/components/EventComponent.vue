@@ -180,16 +180,14 @@ window.setInterval(() => {
             <header>Your time zone</header>
             <p class="event-time" v-html="formatDateTimeWithLineBreaks(localDateTime)"></p>
             <footer>
-                in <span class="bold bright">{{ currentTimeZoneName }}</span
-                >.
+                in <span class="bold bright">{{ currentTimeZoneName.replace('_', ' ') }}</span>
             </footer>
         </article>
         <article class="event-card timezone-card">
             <header>Original time zone</header>
             <p class="event-time" v-html="formatDateTimeWithLineBreaks(origTZDateTime)"></p>
             <footer>
-                in <span class="bold bright">{{ originalTimeZone }}</span
-                >.
+                in <span class="bold bright">{{ originalTimeZone.replace('_', ' ') }}</span>
             </footer>
         </article>
     </div>
@@ -247,7 +245,6 @@ window.setInterval(() => {
 
 /* Event Header Section */
 .event-header {
-    margin-bottom: 1.5rem;
     padding: 1rem 0;
 }
 
@@ -255,7 +252,7 @@ window.setInterval(() => {
     color: #b5932d;
     text-transform: uppercase;
     margin: 0 0 1rem 0;
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     letter-spacing: 0.05em;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     background: rgba(139, 115, 0, 0.08);
@@ -458,7 +455,7 @@ ul.more-numbers li {
         border-color 0.2s ease,
         transform 0.1s ease;
     text-align: center;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     line-height: 1.4;
 }
 

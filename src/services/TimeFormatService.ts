@@ -24,6 +24,7 @@ export class TimeFormatService {
         return Intl.DateTimeFormat(undefined, {
             dateStyle: 'full',
             timeStyle: 'long',
+
             timeZone: originalTimeZone,
         }).format(eventTime);
     }

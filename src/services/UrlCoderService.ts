@@ -15,12 +15,7 @@ export const urlDecoder = (hash: string): EventDetails => {
 
 export const urlEncoder = (data: EventDetails) => {
     const jsonString = JSON.stringify(data);
-    // console.log('jsonString', jsonString);
-    // return encodeURI(btoa(jsonString));
+    //const base46ed = encodeURIComponent(btoa(jsonString));
     const crushed = encodeURIComponent(JSONCrush.crush(jsonString));
-    console.log('crushed', crushed, crushed.length);
-    console.log('crushed base64', btoa(crushed), btoa(crushed).length);
-    const base46ed = encodeURIComponent(btoa(jsonString));
-    console.log('base46ed', base46ed, base46ed.length);
     return crushed;
 };

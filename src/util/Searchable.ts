@@ -12,7 +12,7 @@ export class Searchable {
         onMounted(() => {
             this.searchable = document
                 .getElementById(elementId)
-                ?.querySelector('input[type="text"]');
+                ?.querySelector('input[type="search"]');
             this.valueField = document
                 .getElementById(elementId)
                 ?.querySelector('input[type="hidden"]');
@@ -22,18 +22,12 @@ export class Searchable {
             this.searchable?.addEventListener('keydown', this.showDropdown);
             this.searchable?.addEventListener('blur', this.hideDropdown);
             this.searchable?.addEventListener('focus', this.showDropdown);
-
-            // this.dropdown?.querySelectorAll('li').forEach((li) => {
-            //     li.addEventListener('click', (e) => {
-            //         console.log('clicked', li.dataset.key);
-            //         this.onSelect(e, li.dataset.key as string);
-            //     });
-            // });
+            this.searchable?.addEventListener('search', this.showDropdown);
         });
     }
 
     public onSelect = (e: Event, key: string) => {
-        this.hideDropdown(e);
+        this.hideDropdown();
         this.valueField!.value = key;
         this.valueField!.dispatchEvent(new Event('input'));
         this.searchable!.value = this.formatter(key);
@@ -44,7 +38,7 @@ export class Searchable {
         this.dropdown?.classList.add('show');
     };
 
-    private hideDropdown = (e: Event) => {
+    private hideDropdown = () => {
         setTimeout(() => {
             this.dropdown?.classList.remove('show');
         }, 250);
