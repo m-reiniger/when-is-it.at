@@ -1,5 +1,5 @@
 export type EventDetails = {
     n: string;
-    d: Date;
+    d: number;
     otz: string;
 };

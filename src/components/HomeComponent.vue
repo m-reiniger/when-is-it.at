@@ -4,13 +4,16 @@ import { DateTime } from 'luxon';
 import { urlEncoder } from '@/services/UrlCoderService';
 import type { EventDetails } from '@/types';
 import AddComponent from './AddComponent.vue';
+import { RoutingService } from '@/services/RoutingService';
 
 const exampleEvents: { description: string; event: EventDetails }[] = [
     {
         description: 'Los Angeles hosts the 34th Summer Olympic Games',
         event: {
             n: 'Summer Olympics 2028',
-            d: DateTime.fromISO('2028-07-14T17:00:00', { zone: 'America/Los_Angeles' }).toJSDate(),
+            d: DateTime.fromISO('2028-07-14T17:00:00', { zone: 'America/Los_Angeles' })
+                .toJSDate()
+                .getTime(),
             otz: 'America/Los_Angeles',
         },
     },
@@ -18,7 +21,7 @@ const exampleEvents: { description: string; event: EventDetails }[] = [
         description: 'Neil Armstrong becomes the first human to walk on the Moon',
         event: {
             n: 'Apollo 11 Moon Landing',
-            d: DateTime.fromISO('1969-07-21T20:17:00', { zone: 'UTC' }).toJSDate(),
+            d: DateTime.fromISO('1969-07-21T20:17:00', { zone: 'UTC' }).toJSDate().getTime(),
             otz: 'UTC',
         },
     },
@@ -27,7 +30,9 @@ const exampleEvents: { description: string; event: EventDetails }[] = [
             'Total solar eclipse visible in Egypt, with totality lasting over 6 minutes in Luxor',
         event: {
             n: 'Total Solar Eclipse 2027',
-            d: DateTime.fromISO('2027-08-02T12:39:00', { zone: 'Africa/Cairo' }).toJSDate(),
+            d: DateTime.fromISO('2027-08-02T12:39:00', { zone: 'Africa/Cairo' })
+                .toJSDate()
+                .getTime(),
             otz: 'Africa/Cairo',
         },
     },
@@ -36,7 +41,9 @@ const exampleEvents: { description: string; event: EventDetails }[] = [
         description: "Europe's largest gaming convention opens in Cologne, Germany",
         event: {
             n: 'Gamescom 2026',
-            d: DateTime.fromISO('2026-08-25T20:00:00', { zone: 'Europe/Berlin' }).toJSDate(),
+            d: DateTime.fromISO('2026-08-25T20:00:00', { zone: 'Europe/Berlin' })
+                .toJSDate()
+                .getTime(),
             otz: 'Europe/Berlin',
         },
     },
@@ -44,10 +51,6 @@ const exampleEvents: { description: string; event: EventDetails }[] = [
 
 const createExampleEventHash = (event: EventDetails) => {
     return urlEncoder(event);
-};
-
-const navigateTo = (path: string) => {
-    window.location.hash = path;
 };
 </script>
 
@@ -90,13 +93,12 @@ const navigateTo = (path: string) => {
         <article
             v-for="event in exampleEvents"
             :key="event.event.n"
-            @click="navigateTo(`#${createExampleEventHash(event.event)}`)"
-        >
+            @click="RoutingService.navigateTo(`/${createExampleEventHash(event.event)}`)">
             <header>
                 <h3>{{ event.event.n }}</h3>
                 <p>{{ event.description }}</p>
             </header>
-            <a :href="`#${createExampleEventHash(event.event)}`" class="outline">View Event</a>
+            <a :href="`/${createExampleEventHash(event.event)}`" class="outline">View Event</a>
         </article>
     </div>
 

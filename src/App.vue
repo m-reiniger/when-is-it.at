@@ -1,5 +1,18 @@
 <script setup lang="ts">
-import { routedComponent } from './services/RoutingService';
+import { onMounted, watch } from 'vue';
+import { RoutingService } from './services/RoutingService';
+import { SeoService } from './services/SeoService';
+
+// Initialize Routing when component mounts
+onMounted(() => {
+    RoutingService.initialize();
+});
+
+watch(RoutingService.currentPath, () => {
+    SeoService.initializeSeo(RoutingService.currentPath.value);
+});
+
+const routedComponent = RoutingService.getRoutedComponent();
 </script>
 
 <template>
@@ -7,17 +20,16 @@ import { routedComponent } from './services/RoutingService';
         <nav>
             <ul>
                 <h1>
-                    <a href="/"
-                        ><img
+                    <a href="/">
+                        <img
                             class="logo"
                             src="./assets/logo-cal.svg"
-                            alt="When-is-it.at?"
-                        />When-is-it.at?</a
-                    >
+                            alt="When-is-it.at?" />When-is-it.at?
+                    </a>
                 </h1>
             </ul>
             <ul>
-                <li><a href="/#/add">Create Event</a></li>
+                <li><a href="/add">Create Event</a></li>
             </ul>
         </nav>
     </header>

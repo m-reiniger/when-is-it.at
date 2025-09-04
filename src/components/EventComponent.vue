@@ -2,11 +2,9 @@
 import { ref, computed, onMounted } from 'vue';
 
 import { TimeFormatService } from '@/services/TimeFormatService';
+import { SeoService } from '@/services/SeoService';
 import type { EventDetails } from '@/types';
-
-const navigateTo = (path: string) => {
-    window.location.hash = path;
-};
+import { RoutingService } from '@/services/RoutingService';
 
 const props = defineProps<{
     event: EventDetails;
@@ -16,6 +14,7 @@ const now = ref(new Date());
 
 const originalTimeZone = props.event.otz;
 const eventTime = new Date(props.event.d);
+console.log(eventTime);
 
 // Computed properties that use the service
 const inFuture = computed(() => TimeFormatService.isInFuture(now.value, eventTime));
@@ -167,6 +166,8 @@ window.setInterval(() => {
 
 onMounted(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
+    // Update SEO meta tags for this specific event
+    SeoService.updateEventPageMeta(props.event);
 });
 </script>
 
@@ -231,22 +232,20 @@ onMounted(() => {
                 name="share-url"
                 :value="currentUrl"
                 readonly
-                placeholder="Loading URL..."
-            />
+                placeholder="Loading URL..." />
             <button
                 type="button"
                 class="copy-button"
                 @click="copyToClipboard"
-                :title="isCopied ? 'URL copied!' : 'Copy URL to clipboard'"
-            >
+                :title="isCopied ? 'URL copied!' : 'Copy URL to clipboard'">
                 {{ isCopied ? '✅ Copied!' : '📋 Copy' }}
             </button>
         </fieldset>
     </article>
     <!-- Call to Action -->
-    <div class="cta" @click="navigateTo('/add')">
+    <div class="cta" @click="RoutingService.navigateTo('/add')">
         <h3>Ready to create your own event?</h3>
-        <a href="#/add" class="primary outline">Create Event Now</a>
+        <a href="/add" class="primary outline">Create Event Now</a>
     </div>
 </template>
 

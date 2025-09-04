@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import { Searchable } from '@/util/Searchable';
 import { urlEncoder } from '@/services/UrlCoderService';
 import { TimeFormatService } from '@/services/TimeFormatService';
+import { RoutingService } from '@/services/RoutingService';
 
 const name = ref('');
 const date = ref();
@@ -50,10 +51,12 @@ const createEvent = (e: Event) => {
         const link = urlEncoder({
             n: name.value,
             //d: new Date(`${date.value}T${time.value}:00.000Z`),
-            d: DateTime.fromISO(`${date.value}T${time.value}`, { zone: timeZone.value }).toJSDate(),
+            d: DateTime.fromISO(`${date.value}T${time.value}`, { zone: timeZone.value })
+                .toJSDate()
+                .getTime(),
             otz: timeZone.value,
         });
-        window.location.hash = `${link}`;
+        RoutingService.navigateTo(`/${link}`);
     }
 };
 
@@ -82,22 +85,21 @@ onMounted(() => {
                         placeholder="Event Name"
                         v-model="name"
                         maxlength="60"
-                        required
-                    />
+                        required />
                 </label>
             </fieldset>
             <fieldset>
                 <label>
                     Event Date
                     <input type="date" name="date" aria-label="Date" v-model="date" required />
-                    <small>Date the event takes place in it's original time zone</small>
+                    <small>Date the event takes place in its original time zone</small>
                 </label>
             </fieldset>
             <fieldset>
                 <label>
                     Event Time
                     <input type="time" name="time" aria-label="Time" v-model="time" required />
-                    <small>Time the event takes place in it's original time zone</small>
+                    <small>Time the event takes place in its original time zone</small>
                 </label>
             </fieldset>
             <fieldset class="timezone" id="searchable">
@@ -109,24 +111,21 @@ onMounted(() => {
                         name="timezone"
                         aria-label="Time Zone"
                         v-model="tzSearch"
-                        required
-                    />
+                        required />
                     <small>Timezone the event takes place in</small>
                     <ul class="dropdown-content hide">
                         <li
                             :key="localTimeZone"
                             :data-key="localTimeZone"
                             @click="searchable.onSelect($event, localTimeZone)"
-                            class="highlight"
-                        >
+                            class="highlight">
                             Use my timezone: {{ localTimeZone }}
                         </li>
                         <li
                             v-for="tz in filteredTimeZones"
                             :key="tz.name"
                             :data-key="tz.name"
-                            @click="searchable.onSelect($event, tz.name)"
-                        >
+                            @click="searchable.onSelect($event, tz.name)">
                             {{ formatTzDisplay(tz.name) }}
                         </li>
                     </ul>
