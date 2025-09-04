@@ -1,5 +1,6 @@
 import type { EventDetails } from '@/types';
 import { urlDecoder, urlEncoder } from './UrlCoderService';
+import { OpenGraphImageService } from './OpenGraphImageService';
 
 export class SeoService {
     private static readonly BASE_URL = 'https://when-is-it.at';
@@ -19,6 +20,7 @@ export class SeoService {
             description: this.DEFAULT_DESCRIPTION,
             url: '/',
             type: 'website',
+            image: OpenGraphImageService.generateHomeImageUrl(),
         });
 
         // Add home page structured data
@@ -39,6 +41,7 @@ export class SeoService {
             description: 'Create and share your own events with precise timezone information.',
             url: '/add',
             type: 'website',
+            image: OpenGraphImageService.generateAddEventImageUrl(),
         });
 
         // Add add event page structured data
@@ -76,6 +79,7 @@ export class SeoService {
             description,
             url: `/${this.encodeEventForUrl(event)}`,
             type: 'article',
+            image: OpenGraphImageService.generateEventImageUrl(event),
         });
 
         // Add event-specific structured data
@@ -119,9 +123,39 @@ export class SeoService {
         description: string;
         url: string;
         type: string;
+        image?: string;
     }): void {
         this.updateMetaTag('property', 'og:type', data.type);
         this.updateMetaTag('property', 'og:site_name', this.SITE_NAME);
+        this.updateMetaTag('property', 'og:title', data.title);
+        this.updateMetaTag('property', 'og:description', data.description);
+        this.updateMetaTag('property', 'og:url', `${this.BASE_URL}${data.url}`);
+
+        // Use custom image if provided, otherwise use default
+        const imageUrl = data.image || `${this.BASE_URL}/og-image.svg`;
+        this.updateMetaTag('property', 'og:image', imageUrl);
+        this.updateMetaTag('property', 'og:image:width', '1200');
+        this.updateMetaTag('property', 'og:image:height', '630');
+        this.updateMetaTag('property', 'og:image:alt', data.title);
+
+        // Update Twitter Card tags as well
+        this.updateMetaTag('property', 'twitter:card', 'summary_large_image');
+        this.updateMetaTag('property', 'twitter:title', data.title);
+        this.updateMetaTag('property', 'twitter:description', data.description);
+        this.updateMetaTag('property', 'twitter:image', imageUrl);
+        this.updateMetaTag('property', 'twitter:image:alt', data.title);
+        this.updateMetaTag('property', 'twitter:site', '@whenisitat'); // Add your Twitter handle if you have one
+        this.updateMetaTag('property', 'twitter:creator', '@whenisitat'); // Add your Twitter handle if you have one
+
+        // Additional Open Graph properties
+        this.updateMetaTag('property', 'og:locale', 'en_US');
+        this.updateMetaTag('property', 'og:updated_time', new Date().toISOString());
+
+        // LinkedIn specific tags
+        this.updateMetaTag('property', 'linkedin:owner', 'when-is-it-at');
+
+        // WhatsApp specific tags
+        this.updateMetaTag('property', 'og:image:type', 'image/svg+xml');
     }
 
     /**
@@ -532,7 +566,6 @@ export class SeoService {
      * Initialize SEO for the current route
      */
     static initializeSeo(path: string): void {
-        console.trace('initializing SEO for', path);
         if (path === '' || path === '/') {
             this.updateHomePageMeta();
         } else if (path === 'add' || path === '/add') {

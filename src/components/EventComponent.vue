@@ -14,7 +14,6 @@ const now = ref(new Date());
 
 const originalTimeZone = props.event.otz;
 const eventTime = new Date(props.event.d);
-console.log(eventTime);
 
 // Computed properties that use the service
 const inFuture = computed(() => TimeFormatService.isInFuture(now.value, eventTime));
