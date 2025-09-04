@@ -171,19 +171,21 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="event-header">
+    <section class="event-header">
         <h1 class="event-name pico-color-pink-500">{{ props.event.n }}</h1>
-    </div>
+    </section>
 
-    <article class="event-card primary main-timer" :class="{ 'in-past': !inFuture }">
-        <small class="timer-label">
-            <span v-if="inFuture">in</span> {{ relativeDifferenceDate }}
-        </small>
-        <p class="event-time large">{{ relativeDifferenceTime }}</p>
-        <small v-if="!inFuture">ago</small>
-    </article>
+    <section class="main-timer">
+        <article class="event-card primary" :class="{ 'in-past': !inFuture }">
+            <small class="timer-label">
+                <span v-if="inFuture">in</span> {{ relativeDifferenceDate }}
+            </small>
+            <p class="event-time large">{{ relativeDifferenceTime }}</p>
+            <small v-if="!inFuture">ago</small>
+        </article>
+    </section>
 
-    <div class="timezone-section">
+    <section class="timezone-section">
         <article class="event-card timezone-card">
             <header>Your time zone</header>
             <p class="event-time" v-html="formatDateTimeWithLineBreaks(localDateTime)"></p>
@@ -198,54 +200,58 @@ onMounted(() => {
                 in <span class="bold bright">{{ originalTimeZone.replace('_', ' ') }}</span>
             </footer>
         </article>
-    </div>
+    </section>
 
-    <article class="details-section">
-        <details>
-            <summary class="details-summary">
-                <span class="summary-icon">📊</span>
-                <span class="summary-text">More Numbers</span>
-            </summary>
+    <section class="details-section">
+        <article>
+            <details>
+                <summary class="details-summary">
+                    <span class="summary-icon">📊</span>
+                    <span class="summary-text">More Numbers</span>
+                </summary>
 
-            <div class="details-content">
-                <div class="content-header">That is in totals:</div>
-                <ul class="more-numbers">
-                    <li v-if="relativeTimeDiffYears" v-html="relativeTimeDiffYears"></li>
-                    <li v-if="relativeTimeDiffMonths" v-html="relativeTimeDiffMonths"></li>
-                    <li v-if="relativeTimeDiffWeeks" v-html="relativeTimeDiffWeeks"></li>
-                    <li v-if="relativeTimeDiffDays" v-html="relativeTimeDiffDays"></li>
-                    <li v-if="relativeTimeDiffHours" v-html="relativeTimeDiffHours"></li>
-                    <li v-if="relativeTimeDiffMinutes" v-html="relativeTimeDiffMinutes"></li>
-                    <li v-if="relativeTimeDiffSeconds" v-html="relativeTimeDiffSeconds"></li>
-                </ul>
-            </div>
-        </details>
-    </article>
+                <div class="details-content">
+                    <div class="content-header">That is in totals:</div>
+                    <ul class="more-numbers">
+                        <li v-if="relativeTimeDiffYears" v-html="relativeTimeDiffYears"></li>
+                        <li v-if="relativeTimeDiffMonths" v-html="relativeTimeDiffMonths"></li>
+                        <li v-if="relativeTimeDiffWeeks" v-html="relativeTimeDiffWeeks"></li>
+                        <li v-if="relativeTimeDiffDays" v-html="relativeTimeDiffDays"></li>
+                        <li v-if="relativeTimeDiffHours" v-html="relativeTimeDiffHours"></li>
+                        <li v-if="relativeTimeDiffMinutes" v-html="relativeTimeDiffMinutes"></li>
+                        <li v-if="relativeTimeDiffSeconds" v-html="relativeTimeDiffSeconds"></li>
+                    </ul>
+                </div>
+            </details>
+        </article>
+    </section>
 
-    <article class="share-section">
-        <header>📤 Share this event</header>
-        <fieldset role="group">
-            <input
-                type="text"
-                id="share-url"
-                name="share-url"
-                :value="currentUrl"
-                readonly
-                placeholder="Loading URL..." />
-            <button
-                type="button"
-                class="copy-button"
-                @click="copyToClipboard"
-                :title="isCopied ? 'URL copied!' : 'Copy URL to clipboard'">
-                {{ isCopied ? '✅ Copied!' : '📋 Copy' }}
-            </button>
-        </fieldset>
-    </article>
+    <section class="share-section">
+        <article>
+            <header>📤 Share this event</header>
+            <fieldset role="group">
+                <input
+                    type="text"
+                    id="share-url"
+                    name="share-url"
+                    :value="currentUrl"
+                    readonly
+                    placeholder="Loading URL..." />
+                <button
+                    type="button"
+                    class="copy-button"
+                    @click="copyToClipboard"
+                    :title="isCopied ? 'URL copied!' : 'Copy URL to clipboard'">
+                    {{ isCopied ? '✅ Copied!' : '📋 Copy' }}
+                </button>
+            </fieldset>
+        </article>
+    </section>
     <!-- Call to Action -->
-    <div class="cta" @click="RoutingService.navigateTo('/add')">
+    <section class="cta" @click="RoutingService.navigateTo('/add')">
         <h3>Ready to create your own event?</h3>
         <a href="/add" class="primary outline">Create Event Now</a>
-    </div>
+    </section>
 </template>
 
 <style scoped>
@@ -273,7 +279,7 @@ onMounted(() => {
 }
 
 /* Main Timer Section */
-.main-timer {
+.main-timer article {
     margin-bottom: 2rem;
     padding: 1.5rem;
     border-radius: 10px;
@@ -282,7 +288,7 @@ onMounted(() => {
     overflow: hidden;
 }
 
-.main-timer::before {
+.main-timer article::before {
     content: '';
     position: absolute;
     top: 0;
@@ -394,7 +400,7 @@ article.event-card.primary.in-past {
 }
 
 /* Details Section */
-.details-section {
+.details-section article {
     margin-bottom: 1.5rem;
 }
 
@@ -476,7 +482,7 @@ ul.more-numbers li:hover {
 }
 
 /* Share Section */
-.share-section {
+.share-section article {
     margin-bottom: 1.5rem;
 }
 

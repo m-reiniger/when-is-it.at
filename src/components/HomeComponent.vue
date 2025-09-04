@@ -56,16 +56,16 @@ const createExampleEventHash = (event: EventDetails) => {
 
 <template>
     <!-- Hero Section -->
-    <div class="hero">
+    <section class="hero">
         <h1>When Is It, Where You Are?</h1>
         <p class="tagline">
             Discover when global events happen in your local timezone, or create and share your own
             events with the world
         </p>
-    </div>
+    </section>
 
     <!-- How It Works -->
-    <div class="how-it-works">
+    <section class="how-it-works">
         <div class="steps">
             <div class="step">
                 <div class="step-icon">📅</div>
@@ -83,31 +83,30 @@ const createExampleEventHash = (event: EventDetails) => {
                 <p>Any event with a single global time becomes local for everyone</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Examples Section -->
-    <h2>Chronometric Samples</h2>
-    <p class="examples-intro">Explore these example events to see how the tool works</p>
+    <section class="examples">
+        <!-- Examples Section -->
+        <h2>Chronometric Samples</h2>
+        <p class="examples-intro">Explore these example events to see how the tool works</p>
 
-    <div class="example-events">
-        <article
-            v-for="event in exampleEvents"
-            :key="event.event.n"
-            @click="RoutingService.navigateTo(`/${createExampleEventHash(event.event)}`)">
-            <header>
-                <h3>{{ event.event.n }}</h3>
-                <p>{{ event.description }}</p>
-            </header>
-            <a :href="`/${createExampleEventHash(event.event)}`" class="outline">View Event</a>
-        </article>
-    </div>
+        <div class="example-events">
+            <article
+                v-for="event in exampleEvents"
+                :key="event.event.n"
+                @click="RoutingService.navigateTo(`/${createExampleEventHash(event.event)}`)">
+                <header>
+                    <h3>{{ event.event.n }}</h3>
+                    <p>{{ event.description }}</p>
+                </header>
+                <a :href="`/${createExampleEventHash(event.event)}`" class="outline">View Event</a>
+            </article>
+        </div>
+    </section>
 
-    <!-- Call to Action -->
-    <!-- <div class="cta">
-        <h3>Ready to create your own event?</h3>
-        <a href="#/add" class="primary">Create Event Now</a>
-    </div> -->
-    <AddComponent />
+    <section class="add-event">
+        <AddComponent />
+    </section>
 </template>
 
 <style scoped>
