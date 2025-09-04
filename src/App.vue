@@ -2,8 +2,10 @@
 import { onMounted, watch } from 'vue';
 import { RoutingService } from './services/RoutingService';
 import { SeoService } from './services/SeoService';
+import ConsentBanner from './components/ConsentBanner.vue';
+import ConsentManager from './components/ConsentManager.vue';
 
-// Initialize Routing when component mounts
+// Initialize services when component mounts
 onMounted(() => {
     RoutingService.initialize();
 });
@@ -36,10 +38,10 @@ const routedComponent = RoutingService.getRoutedComponent();
     <main class="container">
         <component :is="routedComponent.component" v-bind="routedComponent.props" />
     </main>
-    <footer class="container">
-        <br />
-        <small class="trademark">&#169; 2025 Codewald</small>
-    </footer>
+    <ConsentManager />
+    <!-- Consent Banner -->
+    <ConsentBanner />
+    <br />
 </template>
 
 <style scoped>
@@ -81,13 +83,6 @@ footer {
         margin: 0 auto;
         /* color: #ffbf00;
         border-color: #ffbf00; */
-    }
-    .trademark {
-        display: block;
-        margin-top: 3rem;
-        margin-bottom: 2rem;
-        font-size: 0.8rem;
-        color: var(--pico-muted-color);
     }
 }
 </style>

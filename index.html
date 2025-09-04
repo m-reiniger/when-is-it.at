@@ -81,6 +81,66 @@
                 ]
             }
         </script>
+
+        <!-- Google tag (gtag.js) - Loaded conditionally based on consent -->
+        <script>
+            // Initialize Google Analytics only after consent is given
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('consent', 'default', {
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                analytics_storage: 'denied',
+            });
+            gtag('js', new Date());
+            gtag('config', 'G-4FS4E4P534');
+
+            // Function to initialize Google Analytics
+            window.initializeGoogleAnalytics = function () {
+                // Load the gtag script
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4FS4E4P534';
+                document.head.appendChild(script);
+
+                // Configure Google Analytics
+                gtag('consent', 'update', {
+                    analytics_storage: 'granted',
+                });
+            };
+
+            // Function to initialize Google Ads (if needed in the future)
+            window.initializeGoogleAds = function () {
+                // This can be used for Google Ads conversion tracking
+                // For now, we'll just enable ad personalization signals if consent is given
+                gtag('consent', 'update', {
+                    ad_user_data: 'granted',
+                    ad_personalization: 'granted',
+                    ad_storage: 'granted',
+                });
+            };
+
+            // Check for existing consent and initialize if already given
+            document.addEventListener('DOMContentLoaded', function () {
+                try {
+                    const consent = localStorage.getItem('when-is-it-consent');
+                    if (consent) {
+                        const parsedConsent = JSON.parse(consent);
+                        if (parsedConsent.analytics) {
+                            window.initializeGoogleAnalytics();
+                        }
+                        if (parsedConsent.ads) {
+                            window.initializeGoogleAds();
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Failed to check existing consent:', error);
+                }
+            });
+        </script>
     </head>
     <body>
         <div id="app"></div>

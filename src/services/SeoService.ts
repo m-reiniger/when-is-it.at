@@ -49,6 +49,28 @@ export class SeoService {
     }
 
     /**
+     * Update meta tags for the privacy policy page
+     */
+    public static updatePrivacyPageMeta(): void {
+        this.updateTitle('Privacy Policy - When is it at?');
+        this.updateDescription(
+            'Privacy policy for When is it at? - Learn how we collect, use, and protect your data when using our timezone conversion service.',
+        );
+        this.updateCanonicalUrl('/privacy');
+        this.updateOpenGraph({
+            title: 'Privacy Policy - When is it at?',
+            description:
+                'Privacy policy for When is it at? - Learn how we collect, use, and protect your data.',
+            url: '/privacy',
+            type: 'website',
+            image: OpenGraphImageService.generateHomeImageUrl(), // Use home image for privacy page
+        });
+
+        // Add privacy page structured data
+        this.addPrivacyPageStructuredData();
+    }
+
+    /**
      * Update meta tags for a specific event
      */
     public static updateEventPageMeta(event: EventDetails): void {
@@ -381,6 +403,52 @@ export class SeoService {
     }
 
     /**
+     * Add structured data for the privacy policy page
+     */
+    private static addPrivacyPageStructuredData(): void {
+        // Remove existing page-specific structured data
+        this.removePageStructuredData('privacy-page');
+
+        const structuredData = {
+            '@context': 'https://schema.org',
+            '@type': 'WebPage',
+            name: 'Privacy Policy - When is it at?',
+            description:
+                'Privacy policy for When is it at? - Learn how we collect, use, and protect your data when using our timezone conversion service.',
+            url: `${this.BASE_URL}/privacy`,
+            isPartOf: {
+                '@type': 'WebSite',
+                name: this.SITE_NAME,
+                url: this.BASE_URL,
+            },
+            about: {
+                '@type': 'Thing',
+                name: 'Privacy Policy',
+                description: 'Information about data collection, usage, and protection',
+            },
+            breadcrumb: {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'Home',
+                        item: this.BASE_URL,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: 'Privacy Policy',
+                        item: `${this.BASE_URL}/privacy`,
+                    },
+                ],
+            },
+        };
+
+        this.addStructuredDataScript(structuredData, 'privacy-page');
+    }
+
+    /**
      * Add structured data for example events on the home page
      */
     private static addExampleEventsStructuredData(): void {
@@ -570,6 +638,8 @@ export class SeoService {
             this.updateHomePageMeta();
         } else if (path === 'add' || path === '/add') {
             this.updateAddEventPageMeta();
+        } else if (path === 'privacy' || path === '/privacy') {
+            this.updatePrivacyPageMeta();
         } else {
             // Try to decode as event
             try {

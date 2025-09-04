@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import HomeComponent from '../components/HomeComponent.vue';
 import AddComponent from '../components/AddComponent.vue';
 import EventComponent from '@/components/EventComponent.vue';
+import PrivacyPolicyComponent from '../components/PrivacyPolicyComponent.vue';
 
 import { urlDecoder } from './UrlCoderService';
 
@@ -39,6 +40,12 @@ export class RoutingService {
                 case '/add':
                     return {
                         component: AddComponent,
+                        props: {},
+                    };
+                case 'privacy':
+                case '/privacy':
+                    return {
+                        component: PrivacyPolicyComponent,
                         props: {},
                     };
                 default: {
