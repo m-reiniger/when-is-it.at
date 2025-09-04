@@ -20,7 +20,7 @@ const routedComponent = RoutingService.getRoutedComponent();
         <nav>
             <ul>
                 <h1>
-                    <a href="/">
+                    <a href="/" aria-label="When is it at - home">
                         <img
                             class="logo"
                             src="./assets/logo-cal.svg"
@@ -29,7 +29,7 @@ const routedComponent = RoutingService.getRoutedComponent();
                 </h1>
             </ul>
             <ul>
-                <li><a href="/add">Create Event</a></li>
+                <li><a href="/add" aria-label="create event">Create Event</a></li>
             </ul>
         </nav>
     </header>
