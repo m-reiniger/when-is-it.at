@@ -5,6 +5,7 @@ import { TimeFormatService } from '@/services/TimeFormatService';
 import { SeoService } from '@/services/SeoService';
 import type { EventDetails } from '@/types';
 import { RoutingService } from '@/services/RoutingService';
+import { AdSenseService } from '@/services/AdSenseService';
 
 const props = defineProps<{
     event: EventDetails;
@@ -167,6 +168,7 @@ onMounted(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
     // Update SEO meta tags for this specific event
     SeoService.updateEventPageMeta(props.event);
+    AdSenseService.showAdBanner2('ads-banner-2-container');
 });
 </script>
 
@@ -201,6 +203,8 @@ onMounted(() => {
             </footer>
         </article>
     </section>
+
+    <section id="ads-banner-2-container"></section>
 
     <section class="details-section">
         <article>

@@ -5,6 +5,8 @@ import { urlEncoder } from '@/services/UrlCoderService';
 import type { EventDetails } from '@/types';
 import AddComponent from './AddComponent.vue';
 import { RoutingService } from '@/services/RoutingService';
+import { onMounted } from 'vue';
+import { AdSenseService } from '@/services/AdSenseService';
 
 const exampleEvents: { description: string; event: EventDetails }[] = [
     {
@@ -52,6 +54,11 @@ const exampleEvents: { description: string; event: EventDetails }[] = [
 const createExampleEventHash = (event: EventDetails) => {
     return urlEncoder(event);
 };
+
+// adsense content 1
+onMounted(() => {
+    AdSenseService.showAdBanner1('ads-banner-1-container');
+});
 </script>
 
 <template>
@@ -103,6 +110,9 @@ const createExampleEventHash = (event: EventDetails) => {
             </article>
         </div>
     </section>
+
+    <!-- wiia-banner-1 -->
+    <div id="ads-banner-1-container"></div>
 
     <section class="add-event">
         <AddComponent />
