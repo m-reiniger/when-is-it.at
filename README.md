@@ -112,4 +112,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📧 Contact
 
-Created by [Codewald](https://github.com/codewald) - feel free to reach out!
+Created by [Michael Reiniger](https://github.com/m-reiniger) - feel free to reach out!
